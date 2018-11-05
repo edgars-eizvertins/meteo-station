@@ -1,18 +1,25 @@
 #!/usr/bin/python3
 
 import time
-import dataRegistrator
+from datetime import datetime, date
+
+import dataCalculator
+import logger
 
 def loop():
     while True:
-        data = dataRegistrator.getData()        
-        print("Temperature: ", data["temperature"])
-        print("Humidity: ", data["humidity"])
-        print("Error", data["error"])
-        time.sleep(5)
+        data = dataCalculator.getCalculatedData()
+        temperature = data["temperature"]
+        humidity = data["humidity"]
+
+        print("Temperature: ", temperature)
+        print("Humidity: ", humidity)
+
+        logger.writeLatestValue(datetime.today(), temperature, humidity)        
 
 def destroy():   # When program ending, the function is executed. 
-    dataRegistrator.cleanup()
+    pass
+ #   dataRegistrator.cleanup()
 
 if __name__ == '__main__':
         #rint_msg()
