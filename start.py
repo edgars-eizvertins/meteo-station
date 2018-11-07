@@ -5,25 +5,27 @@ from datetime import datetime, date
 
 import dataCalculator
 import logger
+import time
+
+timeBetweenMeasures = 60
 
 def loop():
     while True:
         data = dataCalculator.getCalculatedData()
         temperature = data["temperature"]
         humidity = data["humidity"]
+        dateNow = datetime.today()
 
-        print("Temperature: ", temperature)
-        print("Humidity: ", humidity)
+        print(dateNow.isoformat() + ": Temperature: ", temperature, " Humidity: ", humidity)
 
-        logger.writeLatestValue(datetime.today(), temperature, humidity)        
+        logger.writeLatestValue(dateNow, temperature, humidity)
 
-def destroy():   # When program ending, the function is executed. 
+        time.sleep(timeBetweenMeasures)
+
+def destroy():
     pass
- #   dataRegistrator.cleanup()
 
 if __name__ == '__main__':
-        #rint_msg()
-        #getData()''
     try:
         loop()  
     except KeyboardInterrupt:

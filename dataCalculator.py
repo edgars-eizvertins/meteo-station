@@ -5,7 +5,8 @@ from decimal import *
 
 import dataRegistrator
 
-timeBetweenMeasures = 5
+timeBetweenMeasures = 2
+measuresCount = 5
 
 def averageValue(valuesArray):
     return round(Decimal(sum(valuesArray) / float(len(valuesArray))), 2)
@@ -14,7 +15,7 @@ def getCalculatedData():
     temperatureList = []
     humidityList = []
 
-    for i in range(1,5):
+    for i in range(1,measuresCount):
         data = dataRegistrator.getData()
         temperature = data["temperature"]
         humidity = data["humidity"]

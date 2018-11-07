@@ -2,12 +2,22 @@
 
 import os
 
-sensorName                  = "living-room"
-latestTemperatureFilePath = "sensor-values/temperature_" + sensorName + "_latest_value.csv"
-latestHumidityFilePath    = "sensor-values/humidity_" + sensorName + "_latest_value.csv"
-csvHeaderTemperature       = "timestamp,temperature_in_celsius\n"
-csvHeaderHumidity          = "timestamp,relative_humidity\n"
-csvEntryFormat             = "{:%Y-%m-%d %H:%M:%S},{:0.1f}\n"
+sensorName = "living-room"
+csvHeaderTemperature = "timestamp,temperature_in_celsius\n"
+csvHeaderHumidity = "timestamp,relative_humidity\n"
+csvEntryFormat = "{:%Y-%m-%d %H:%M:%S},{:0.2f}\n"
+
+def getFilePath(time):
+	path = "sensor-values/" + ("{0:%Y-%m}".format(time)) + "/"
+	if not os.path.exists(path):
+		os.makedirs(path)
+	return path
+
+def getTemperatureFilePath(time):
+	return getFilePath(time) + "temperature_" + sensorName + "_" + ("{0:%Y-%m-%d}".format(time)) + ".csv"
+
+def getHumidityFilePath(time):
+	return getFilePath(time) + "humidity_" + sensorName + "_" + ("{0:%Y-%m-%d}".format(time)) + ".csv"
 
 def writeHeader(fileHandle, csvHeader):
 	fileHandle.write(csvHeader)
@@ -24,7 +34,7 @@ def openFileEnsureHeader(filePath, mode, csvHeader):
 	return f
 
 def writeLatestValue(time, temperature, humidity):
-	with openFileEnsureHeader(latestTemperatureFilePath, 'a', csvHeaderTemperature) as fileHandle:  #open and truncate
+	with openFileEnsureHeader(getTemperatureFilePath(time), 'a', csvHeaderTemperature) as fileHandle:
 		writeValue(fileHandle, time, temperature)
-	with openFileEnsureHeader(latestHumidityFilePath, 'a', csvHeaderHumidity) as fileHandle:  #open and truncate
+	with openFileEnsureHeader(getHumidityFilePath(time), 'a', csvHeaderHumidity) as fileHandle:
 		writeValue(fileHandle, time, humidity)
