@@ -2,6 +2,7 @@
 
 import RPi.GPIO as GPIO
 import time
+#import dht
 
 def getData():
 	channel = 18
@@ -36,7 +37,7 @@ def getData():
 
 		if k < 8:
 			data.append(0)
-		else:
+		else: 
 			data.append(1)
 
 		j += 1

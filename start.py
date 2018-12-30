@@ -7,7 +7,7 @@ import dataCalculator
 import logger
 import time
 
-timeBetweenMeasures = 60
+timeBetweenMeasures = 10
 
 def loop():
     while True:
@@ -27,7 +27,9 @@ def destroy():
 
 if __name__ == '__main__':
     try:
+        print("Start")
         loop()  
     except KeyboardInterrupt:
+        print("Stop")
         destroy()  
 

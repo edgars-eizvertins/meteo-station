@@ -3,7 +3,8 @@
 import time
 from decimal import *
 
-import dataRegistrator
+import pigpio
+import DHT22
 
 timeBetweenMeasures = 2
 measuresCount = 5
@@ -15,14 +16,18 @@ def getCalculatedData():
     temperatureList = []
     humidityList = []
 
+    pi = pigpio.pi()
+    s = DHT22.sensor(pi, 18, LED=16, power=8)
+
     for i in range(1,measuresCount):
-        data = dataRegistrator.getData()
-        temperature = data["temperature"]
-        humidity = data["humidity"]
-        error = data["error"]
-        if not error:
-            temperatureList.append(temperature)
-            humidityList.append(humidity)
+        s.trigger()
+        time.sleep(0.2)
+
+        humidity = s.humidity()
+        temperature = s.temperature()
+
+        temperatureList.append(temperature)
+        humidityList.append(humidity)
         time.sleep(timeBetweenMeasures)
 
     averageTemperature = 0
